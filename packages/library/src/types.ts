@@ -1,7 +1,7 @@
 import { Contract, BigNumber, Wallet } from 'ethers';
 import { BaseProvider, Provider } from '@ethersproject/providers';
-import { Relayer } from 'defender-relay-client';
-import { DefenderRelaySigner } from 'defender-relay-client/lib/ethers';
+import { Relayer } from '@openzeppelin/defender-relay-client';
+import { DefenderRelaySigner } from '@openzeppelin/defender-relay-client/lib/ethers';
 import { ContractsBlob, TierPrizeData } from '@generationsoftware/pt-v5-utils-js';
 
 import { DrawAuctionState } from './utils/getDrawAuctionContextMulticall';

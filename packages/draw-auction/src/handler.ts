@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import { RelayerParams } from 'defender-relay-client';
-import { DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
+import { RelayerParams } from '@openzeppelin/defender-relay-client';
+import { DefenderRelayProvider } from '@openzeppelin/defender-relay-client/lib/ethers';
 import {
   instantiateRelayerAccount,
   DrawAuctionConfigParams,

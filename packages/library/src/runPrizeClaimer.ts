@@ -8,7 +8,6 @@ import {
   getContract,
   flagClaimedRpc,
 } from '@generationsoftware/pt-v5-utils-js';
-import { Relayer } from 'defender-relay-client';
 import groupBy from 'lodash.groupby';
 import chalk from 'chalk';
 import fetch from 'node-fetch';

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import Configstore from 'configstore';
-import { AutotaskClient } from 'defender-autotask-client';
+import { AutotaskClient } from '@openzeppelin/defender-autotask-client';
 import fs from 'fs';
 
 import pkg from '../package.json';

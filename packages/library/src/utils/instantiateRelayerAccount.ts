@@ -1,7 +1,10 @@
 import { Wallet } from 'ethers';
 import { Provider } from '@ethersproject/providers';
-import { Relayer, RelayerParams } from 'defender-relay-client';
-import { DefenderRelayProvider, DefenderRelaySigner } from 'defender-relay-client/lib/ethers';
+import { Relayer, RelayerParams } from '@openzeppelin/defender-relay-client';
+import {
+  DefenderRelayProvider,
+  DefenderRelaySigner,
+} from '@openzeppelin/defender-relay-client/lib/ethers';
 import { RelayerAccount } from '../types';
 
 // Takes a generic set of providers, the lambda event params (in the case of an OZ Defender setup),

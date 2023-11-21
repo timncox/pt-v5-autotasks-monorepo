@@ -1,13 +1,13 @@
 import chalk from 'chalk';
 import { PopulatedTransaction } from '@ethersproject/contracts';
-import { RelayerParams } from 'defender-relay-client';
+import { RelayerParams } from '@openzeppelin/defender-relay-client';
 import { downloadContractsBlob, ContractsBlob } from '@generationsoftware/pt-v5-utils-js';
 import {
   getWithdrawClaimRewardsTx,
   printAsterisks,
   printSpacer,
 } from '@generationsoftware/pt-v5-autotasks-library';
-import { Relayer } from 'defender-relay-client';
+import { Relayer } from '@openzeppelin/defender-relay-client';
 import fetch from 'node-fetch';
 
 export const populateTransaction = async (params, readProvider): Promise<PopulatedTransaction> => {

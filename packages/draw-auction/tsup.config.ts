@@ -34,7 +34,7 @@ export default defineConfig((opt) => {
       'ethers-multicall-provider',
       'configstore',
     ],
-    format: 'cjs',
+    format: ['esm','cjs'],
     entry: ['src/handler.ts'],
     splitting: false,
     clean: true,

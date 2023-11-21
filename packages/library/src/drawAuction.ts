@@ -2,8 +2,8 @@ import { ethers, BigNumber, Contract, PopulatedTransaction, Wallet } from 'ether
 import { Provider } from '@ethersproject/providers';
 import { ContractsBlob, getContract, getContracts } from '@generationsoftware/pt-v5-utils-js';
 import { formatUnits } from '@ethersproject/units';
-import { Relayer } from 'defender-relay-client';
-import { DefenderRelaySigner } from 'defender-relay-client/lib/ethers';
+import { Relayer } from '@openzeppelin/defender-relay-client';
+import { DefenderRelaySigner } from '@openzeppelin/defender-relay-client/lib/ethers';
 import chalk from 'chalk';
 
 import { getArbitrumRelayTxParamsVars } from './getRelayTxParams';
@@ -603,7 +603,7 @@ const getRngAuctionRelayerRemoteOwnerArbitrumRelayEstimatedGasLimit = async (
     console.log(...Object.values(rngAuctionRelayerRemoteOwnerArbitrumRelayTxParams), { value });
     estimatedGasLimit = await contract.estimateGas.relay(
       ...Object.values(rngAuctionRelayerRemoteOwnerArbitrumRelayTxParams),
-      { value }
+      { value },
     );
   } catch (e) {
     console.log(chalk.red(e));
@@ -911,10 +911,9 @@ const getRngGasCost = async (
     //   transferFeeAndStartRngRequestTxParams,
     // );
 
-    populatedTx =
-      await chainlinkRngAuctionHelperContract.populateTransaction.transferFeeAndStartRngRequest(
-        ...Object.values(transferFeeAndStartRngRequestTxParams),
-      );
+    populatedTx = await chainlinkRngAuctionHelperContract.populateTransaction.transferFeeAndStartRngRequest(
+      ...Object.values(transferFeeAndStartRngRequestTxParams),
+    );
 
     // This was a previous tx gas usage on Goerli + buffer room
     estimatedGasLimit = BigNumber.from(330000);
@@ -964,10 +963,14 @@ const getRelayTxParams = async (
         params.rewardRecipient,
       );
     } else if (chainIsArbitrum(chainId)) {
-      const { deposit, gasLimit, maxSubmissionCost, gasPriceBid } =
-        await getArbitrumRelayTxParamsVars(relay, params);
+      const {
+        deposit,
+        gasLimit,
+        maxSubmissionCost,
+        gasPriceBid,
+      } = await getArbitrumRelayTxParamsVars(relay, params);
 
-        console.log({ deposit, gasLimit, maxSubmissionCost, gasPriceBid });
+      console.log({ deposit, gasLimit, maxSubmissionCost, gasPriceBid });
       txParams = buildRngAuctionRelayerRemoteOwnerArbitrumRelayTxParams(
         ERC_5164_MESSAGE_DISPATCHER_ADDRESS[chainId],
         relay.chainId,
@@ -980,7 +983,6 @@ const getRelayTxParams = async (
         gasPriceBid,
         deposit,
       );
-
     }
   } else {
     // TODO: Fill this in if/when we have a need for RelayerDirect (where the PrizePool
@@ -1256,10 +1258,10 @@ const populateArbitrumRelayTx = async (
 ) => {
   console.log('populateArbitrumRelayTx');
   console.log(populateArbitrumRelayTx);
-  const value = rngAuctionRelayerRemoteOwnerArbitrumRelayTxParams.value
-  delete rngAuctionRelayerRemoteOwnerArbitrumRelayTxParams.value
+  const value = rngAuctionRelayerRemoteOwnerArbitrumRelayTxParams.value;
+  delete rngAuctionRelayerRemoteOwnerArbitrumRelayTxParams.value;
   return await contract.populateTransaction.relay(
     ...Object.values(rngAuctionRelayerRemoteOwnerArbitrumRelayTxParams),
-    { value }
+    { value },
   );
 };

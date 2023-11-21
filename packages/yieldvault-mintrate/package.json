@@ -35,12 +35,12 @@
     "url": "https://github.com/generationsoftware/pt-v5-autotasks/issues"
   },
   "dependencies": {
-    "defender-relay-client": "1.39.0",
+    "@openzeppelin/defender-relay-client": "1.51.0",
     "tsdx": "^0.14.1"
   },
   "devDependencies": {
     "builtin-modules": "3.3.0",
-    "defender-autotask-client": "1.37.0",
+    "@openzeppelin/defender-autotask-client": "1.51.0",
     "dotenv": "16.0.3",
     "es-main": "1.2.0",
     "ts-node": "10.9.1"

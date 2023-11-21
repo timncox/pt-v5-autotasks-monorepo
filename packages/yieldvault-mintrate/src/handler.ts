@@ -1,4 +1,4 @@
-import { RelayerParams } from 'defender-relay-client';
+import { RelayerParams } from '@openzeppelin/defender-relay-client';
 
 import { processTransactions } from './transactions';
 

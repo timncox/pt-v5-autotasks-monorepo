@@ -1,4 +1,4 @@
-import { DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
+import { DefenderRelayProvider } from '@openzeppelin/defender-relay-client/lib/ethers';
 import {
   Relay,
   RelayConfig,
