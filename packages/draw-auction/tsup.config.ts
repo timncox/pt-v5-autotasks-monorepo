@@ -33,6 +33,7 @@ export default defineConfig((opt) => {
       '@generationsoftware/pt-v5-utils-js',
       'ethers-multicall-provider',
       'configstore',
+      'node-fetch',
     ],
     format: 'cjs',
     entry: ['src/handler.ts'],

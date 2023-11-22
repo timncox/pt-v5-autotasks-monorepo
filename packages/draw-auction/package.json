@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "configstore": "^6.0.0",
-    "defender-relay-client": "1.39.0",
+    "defender-relay-client": "^1.44.0",
     "figlet": "^1.6.0",
     "graphql-request": "^5.2.0",
     "node-fetch": "^3.3.1",

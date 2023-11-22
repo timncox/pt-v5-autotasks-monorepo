@@ -1,6 +1,4 @@
-import { Relayer } from 'defender-relay-client';
 import { ethers } from 'ethers';
-import { DefenderRelayProvider, DefenderRelaySigner } from 'defender-relay-client/lib/ethers';
 import { downloadContractsBlob, ContractsBlob } from '@generationsoftware/pt-v5-utils-js';
 import {
   instantiateRelayerAccount,
