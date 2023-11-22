@@ -1,7 +1,5 @@
 import { ethers } from 'ethers';
-import { RelayerParams } from 'defender-relay-client';
 import { WithdrawClaimRewardsConfigParams } from '@generationsoftware/pt-v5-autotasks-library';
-import { DefenderRelayProvider, DefenderRelaySigner } from 'defender-relay-client/lib/ethers';
 
 import { populateTransaction, processPopulatedTransaction } from './transactions';
 
@@ -15,11 +13,12 @@ const handlerLoadParams = (relayerAddress): WithdrawClaimRewardsConfigParams => 
   };
 };
 
-export async function handler(event: RelayerParams) {
-  const provider = new DefenderRelayProvider(event);
-  const signer = new DefenderRelaySigner(event, provider, { speed: 'fast' });
-  const relayerAddress = await signer.getAddress();
+export async function handler(event) {
+  // const provider = new Provider
+  // const signer = new DefenderRelaySigner(event, provider, { speed: 'fast' });
+  // const relayerAddress = await signer.getAddress();
 
+  const relayerAddress = '0xasdf';
   const params = handlerLoadParams(relayerAddress);
 
   const readProvider = new ethers.providers.JsonRpcProvider(BUILD_JSON_RPC_URI, params.chainId);

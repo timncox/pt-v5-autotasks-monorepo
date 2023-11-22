@@ -2,7 +2,6 @@ import { ethers, BigNumber, Contract, PopulatedTransaction, Wallet } from 'ether
 import { Provider } from '@ethersproject/providers';
 import { ContractsBlob, getContract, getContracts } from '@generationsoftware/pt-v5-utils-js';
 import { formatUnits } from '@ethersproject/units';
-import { Relayer } from 'defender-relay-client';
 import chalk from 'chalk';
 
 import { getArbitrumRelayTxParamsVars } from './getRelayTxParams';
@@ -275,7 +274,6 @@ export async function executeDrawAuctionTxs(
     rngChainId,
     rngReadProvider,
     rngWallet,
-    rngOzRelayer,
     rngRelayerAddress,
     signer,
     rewardRecipient,
@@ -342,13 +340,7 @@ export async function executeDrawAuctionTxs(
     const profitable = await calculateRngProfit(params, rewardUsd, gasCostUsd, context);
 
     if (profitable) {
-      await sendStartRngTransaction(
-        rngWallet,
-        rngOzRelayer,
-        rngReadProvider,
-        rngAuctionContracts,
-        params,
-      );
+      await sendStartRngTransaction(rngWallet, rngReadProvider, rngAuctionContracts, params);
     } else {
       console.log(
         chalk.yellow(`Completing current auction currently not profitable. Try again soon ...`),
@@ -356,21 +348,13 @@ export async function executeDrawAuctionTxs(
     }
   } else if (context.drawAuctionState === DrawAuctionState.RngRelayBridge) {
     for (const relay of relays) {
-      await processRelayTransaction(
-        rngWallet,
-        rngOzRelayer,
-        relay,
-        rngAuctionContracts,
-        params,
-        context,
-      );
+      await processRelayTransaction(rngWallet, relay, rngAuctionContracts, params, context);
     }
   }
 }
 
 const sendStartRngTransaction = async (
   rngWallet: Wallet,
-  rngOzRelayer: Relayer,
   provider: Provider,
   rngAuctionContracts: RngAuctionContracts,
   params: DrawAuctionConfigParams,
@@ -394,14 +378,7 @@ const sendStartRngTransaction = async (
   console.log(chalk.greenBright.bold(`Sending transaction ...`));
 
   const gasLimit = 400000;
-  const tx = await sendPopulatedTx(
-    rngOzRelayer,
-    rngWallet,
-    populatedTx,
-    gasLimit,
-    gasPrice,
-    params.useFlashbots,
-  );
+  const tx = await sendPopulatedTx(rngWallet, populatedTx, gasLimit, gasPrice, params.useFlashbots);
 
   console.log(chalk.greenBright.bold('Transaction sent! ✔'));
   console.log(chalk.blueBright.bold('Transaction hash:', tx.hash));
@@ -423,7 +400,6 @@ const sendStartRngTransaction = async (
 
 const processRelayTransaction = async (
   rngWallet: Wallet,
-  rngOzRelayer: Relayer,
   relay: Relay,
   rngAuctionContracts: RngAuctionContracts,
   params: DrawAuctionConfigParams,
@@ -454,7 +430,7 @@ const processRelayTransaction = async (
 
   // #7. Send transaction
   if (profitable) {
-    await sendRelayTransaction(rngWallet, rngOzRelayer, txParams, relay, contract, context);
+    await sendRelayTransaction(rngWallet, txParams, relay, contract, context);
   } else {
     console.log(
       chalk.yellow(`Completing current auction currently not profitable. Try again soon ...`),
@@ -1047,7 +1023,6 @@ const getGasCostUsd = async (
 
 const sendRelayTransaction = async (
   rngWallet: Wallet,
-  rngOzRelayer: Relayer,
   txParams:
     | RngAuctionRelayerRemoteOwnerArbitrumRelayTxParams
     | RngAuctionRelayerRemoteOwnerOptimismRelayTxParams,
@@ -1078,7 +1053,7 @@ const sendRelayTransaction = async (
   }
 
   const gasLimit = 400000;
-  const tx = await sendPopulatedTx(rngOzRelayer, rngWallet, populatedTx, gasLimit, gasPrice);
+  const tx = await sendPopulatedTx(rngWallet, populatedTx, gasLimit, gasPrice);
 
   console.log(chalk.greenBright.bold('Transaction sent! ✔'));
   console.log(chalk.blueBright.bold('Transaction hash:', tx.hash));

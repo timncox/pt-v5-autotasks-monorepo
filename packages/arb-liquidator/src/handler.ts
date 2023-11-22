@@ -22,9 +22,7 @@ export async function handler(event) {
   const readProvider = new ethers.providers.JsonRpcProvider(BUILD_JSON_RPC_URI, chainId);
 
   const relayerAccount: RelayerAccount = await instantiateRelayerAccount(
-    readProvider, // TODO: Fix this!
     readProvider,
-    event,
     BUILD_CUSTOM_RELAYER_PRIVATE_KEY,
   );
 

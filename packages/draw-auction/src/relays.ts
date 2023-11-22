@@ -1,4 +1,3 @@
-import { DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
 import {
   Relay,
   RelayConfig,
@@ -16,21 +15,19 @@ export const getRelays = async (relayConfigs: RelayConfig[]): Promise<Relay[]> =
   for (const relayConfig of Object.values(relayConfigs)) {
     const chainId = Number(relayConfig.RELAY_CHAIN_ID);
 
-    const mockEvent = {
-      apiKey: relayConfig.RELAY_RELAYER_API_KEY,
-      apiSecret: relayConfig.RELAY_RELAYER_API_SECRET,
-    };
-
-    const writeProvider = new DefenderRelayProvider(mockEvent);
     const readProvider = new ethers.providers.JsonRpcProvider(
       relayConfig.RELAY_JSON_RPC_URI,
       chainId,
     );
 
+    console.log('relayConfig');
+    console.log(relayConfig);
+    console.log('relayConfig.RELAY_CUSTOM_RELAYER_PRIVATE_KEY');
+    console.log(relayConfig.RELAY_CUSTOM_RELAYER_PRIVATE_KEY);
+    console.log('JSON.stringify(relayConfig, null, 2)');
+    console.log(JSON.stringify(relayConfig, null, 2));
     const relayerAccount: RelayerAccount = await instantiateRelayerAccount(
-      writeProvider,
       readProvider,
-      mockEvent,
       relayConfig.RELAY_CUSTOM_RELAYER_PRIVATE_KEY,
     );
 
@@ -41,7 +38,7 @@ export const getRelays = async (relayConfigs: RelayConfig[]): Promise<Relay[]> =
       contractsBlob,
       relayerAccount,
       readProvider,
-      writeProvider,
+      writeProvider: readProvider,
     });
   }
 

@@ -24,7 +24,7 @@ export default defineConfig((opt) => {
         BUILD_CUSTOM_RELAYER_PRIVATE_KEY: `'${config.get(
           `${CHAIN_ID}.CUSTOM_RELAYER_PRIVATE_KEY`,
         )}'`,
-        BUILD_RELAYS: `'${config.get(`${CHAIN_ID}.RELAYS`)}'`,
+        BUILD_RELAYS: `'${JSON.parse(config.get(`${CHAIN_ID}.RELAYS`))}'`,
       };
     },
     noExternal: [
@@ -34,11 +34,12 @@ export default defineConfig((opt) => {
       'ethers-multicall-provider',
       'configstore',
       'node-fetch',
+      'graphql-request',
     ],
     format: 'cjs',
     entry: ['src/handler.ts'],
     splitting: false,
     clean: true,
-    minify: true,
+    // minify: true,
   };
 });

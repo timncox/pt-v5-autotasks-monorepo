@@ -8,7 +8,6 @@ import {
   DrawAuctionConfigParams,
   RelayerAccount,
 } from '@generationsoftware/pt-v5-autotasks-library';
-import { DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
 
 import { executeTransactions } from './transactions';
 import { askQuestions } from './helpers/questions';
@@ -26,16 +25,9 @@ if (esMain(import.meta)) {
     config.CHAIN_ID, // is RNG chain but needs to be just CHAIN_ID for global config to work properly
   );
 
-  const mockEvent = {
-    apiKey: config.RELAYER_API_KEY, // is RNG chain but needs to just be RELAYER_API_KEY for global config to work
-    apiSecret: config.RELAYER_API_SECRET, // is RNG chain but needs to just be RELAYER_API_KEY for global config to work
-  };
-  const rngWriteProvider = new DefenderRelayProvider(mockEvent);
 
   const relayerAccount: RelayerAccount = await instantiateRelayerAccount(
-    rngWriteProvider,
     rngReadProvider,
-    mockEvent,
     config.CUSTOM_RELAYER_PRIVATE_KEY,
   );
 
@@ -44,7 +36,6 @@ if (esMain(import.meta)) {
     rngReadProvider,
     signer: relayerAccount.signer,
     rngWallet: relayerAccount.wallet,
-    rngOzRelayer: relayerAccount.ozRelayer,
     rngRelayerAddress: relayerAccount.relayerAddress,
     rewardRecipient: config.REWARD_RECIPIENT,
     useFlashbots: config.USE_FLASHBOTS,

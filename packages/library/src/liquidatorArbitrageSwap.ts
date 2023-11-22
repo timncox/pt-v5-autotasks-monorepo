@@ -1,7 +1,6 @@
 import { ethers, Contract, BigNumber } from 'ethers';
 import { Provider } from '@ethersproject/providers';
 import { PopulatedTransaction } from '@ethersproject/contracts';
-import { DefenderRelaySigner } from 'defender-relay-client/lib/ethers';
 import { ContractsBlob, getContract } from '@generationsoftware/pt-v5-utils-js';
 import chalk from 'chalk';
 
@@ -52,7 +51,6 @@ export async function liquidatorArbitrageSwap(
 ): Promise<void> {
   const {
     chainId,
-    ozRelayer,
     wallet,
     relayerAddress,
     readProvider,
@@ -269,14 +267,7 @@ export async function liquidatorArbitrageSwap(
 
       const gasLimit = 1000000;
       const { gasPrice } = await getGasPrice(readProvider);
-      const tx = await sendPopulatedTx(
-        ozRelayer,
-        wallet,
-        populatedTx,
-        gasLimit,
-        gasPrice,
-        useFlashbots,
-      );
+      const tx = await sendPopulatedTx(wallet, populatedTx, gasLimit, gasPrice, useFlashbots);
 
       // let transactionSentToNetwork = await ozRelayer.sendTransaction({
       //   isPrivate,
@@ -324,7 +315,7 @@ export async function liquidatorArbitrageSwap(
 const approve = async (
   amountIn: BigNumber,
   liquidationRouter: Contract,
-  writeProvider: Provider | DefenderRelaySigner,
+  writeProvider: Provider,
   relayerAddress: string,
   context: ArbLiquidatorContext,
 ) => {

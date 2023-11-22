@@ -1,7 +1,5 @@
 import { Contract, BigNumber, Wallet } from 'ethers';
 import { BaseProvider, Provider } from '@ethersproject/providers';
-import { Relayer } from 'defender-relay-client';
-import { DefenderRelaySigner } from 'defender-relay-client/lib/ethers';
 import { ContractsBlob, TierPrizeData } from '@generationsoftware/pt-v5-utils-js';
 
 import { DrawAuctionState } from './utils/getDrawAuctionContextMulticall';
@@ -51,9 +49,8 @@ export interface PrizeClaimerConfigParams {
   chainId: number;
   readProvider: BaseProvider;
   wallet: Wallet;
-  ozRelayer: Relayer;
   relayerAddress: string;
-  signer: DefenderRelaySigner | Wallet;
+  signer: Wallet;
   feeRecipient: string;
   useFlashbots: boolean;
   minProfitThresholdUsd: number;
@@ -63,11 +60,10 @@ export interface PrizeClaimerConfigParams {
 export interface ArbLiquidatorConfigParams {
   chainId: number;
   readProvider: BaseProvider;
-  writeProvider: Provider | DefenderRelaySigner;
+  writeProvider: Provider;
   wallet: Wallet;
-  ozRelayer: Relayer;
   relayerAddress: string;
-  signer: DefenderRelaySigner | Wallet;
+  signer: Wallet;
   swapRecipient: string;
   useFlashbots: boolean;
   minProfitThresholdUsd: number;
@@ -97,9 +93,8 @@ export interface DrawAuctionConfigParams {
   rngChainId: number;
   rngReadProvider: BaseProvider;
   rngWallet: Wallet;
-  rngOzRelayer: Relayer;
   rngRelayerAddress: string;
-  signer: DefenderRelaySigner | Wallet;
+  signer: Wallet;
   rewardRecipient: string;
   useFlashbots: boolean;
   minProfitThresholdUsd: number;
@@ -162,15 +157,14 @@ export interface Relay {
   contractsBlob: ContractsBlob;
   relayerAccount: RelayerAccount;
   readProvider: BaseProvider;
-  writeProvider: Provider | DefenderRelaySigner;
+  writeProvider: Provider;
   contracts?: RelayAuctionContracts;
   context?: RelayDrawAuctionContext;
 }
 
 export interface RelayerAccount {
-  signer: DefenderRelaySigner | Wallet;
+  signer: Wallet;
   relayerAddress: string;
-  ozRelayer: Relayer;
   wallet: Wallet;
 }
 
@@ -197,10 +191,9 @@ export interface VaultWithContext {
 export interface YieldVaultMintRateConfigParams {
   chainId: number;
   wallet: Wallet;
-  ozRelayer: Relayer;
   readProvider: BaseProvider;
   relayerAddress: string;
-  signer: DefenderRelaySigner | Wallet;
+  signer: Wallet;
 }
 
 export interface SendTransactionArgs {
@@ -212,8 +205,4 @@ export interface SendTransactionArgs {
 
 export interface WalletSendTransactionArgs extends SendTransactionArgs {
   value?: BigNumber;
-}
-
-export interface OzSendTransactionArgs extends SendTransactionArgs {
-  isPrivate?: boolean;
 }

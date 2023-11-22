@@ -1,20 +1,18 @@
 import { ethers, BigNumber, PopulatedTransaction, Wallet } from 'ethers';
-import { Relayer, RelayerTransaction } from 'defender-relay-client';
 import chalk from 'chalk';
 
-import { SendTransactionArgs, OzSendTransactionArgs, WalletSendTransactionArgs } from '../types';
+import { SendTransactionArgs, WalletSendTransactionArgs } from '../types';
 import { printSpacer } from '../utils';
 
 const ONE_GWEI = '1000000000';
 
 export const sendPopulatedTx = async (
-  rngOzRelayer: Relayer,
-  rngWallet: Wallet,
+  wallet: Wallet,
   populatedTx: PopulatedTransaction,
   gasLimit: number,
   gasPrice: BigNumber,
   useFlashbots?: boolean,
-): Promise<RelayerTransaction | ethers.providers.TransactionResponse> => {
+): Promise<ethers.providers.TransactionResponse> => {
   const isPrivate = false;
   // const isPrivate = useFlashbots ? canUseIsPrivate(chainId, useFlashbots) : false;
   console.log(chalk.green.bold(`Flashbots (Private transaction) support:`, isPrivate));
@@ -27,19 +25,10 @@ export const sendPopulatedTx = async (
     gasPrice: gasPrice.add(ONE_GWEI).toString(),
   };
 
-  let tx;
-  if (rngOzRelayer) {
-    const args: OzSendTransactionArgs = {
-      ...sendTransactionArgs,
-      isPrivate,
-    };
-    tx = await rngOzRelayer.sendTransaction(args);
-  } else if (rngWallet) {
-    const args: WalletSendTransactionArgs = {
-      ...sendTransactionArgs,
-    };
-    tx = await rngWallet.sendTransaction(args);
-  }
+  const args: WalletSendTransactionArgs = {
+    ...sendTransactionArgs,
+  };
+  const tx = await wallet.sendTransaction(args);
 
   return tx;
 };

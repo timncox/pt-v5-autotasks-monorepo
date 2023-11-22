@@ -1,6 +1,4 @@
 import { ethers } from 'ethers';
-import { RelayerParams } from 'defender-relay-client';
-import { DefenderRelayProvider } from 'defender-relay-client/lib/ethers';
 import {
   instantiateRelayerAccount,
   DrawAuctionConfigParams,
@@ -9,23 +7,19 @@ import {
 
 import { executeTransactions } from './transactions';
 
-export async function handler(event: RelayerParams) {
-  const rngWriteProvider = new DefenderRelayProvider(event);
+export async function handler(event) {
   const rngReadProvider = new ethers.providers.JsonRpcProvider(
     BUILD_JSON_RPC_URI,
     Number(BUILD_CHAIN_ID),
   );
 
   const relayerAccount: RelayerAccount = await instantiateRelayerAccount(
-    rngWriteProvider,
     rngReadProvider,
-    event,
     BUILD_CUSTOM_RELAYER_PRIVATE_KEY,
   );
 
   const drawAuctionConfigParams: DrawAuctionConfigParams = {
     rngChainId: Number(BUILD_CHAIN_ID),
-    rngOzRelayer: relayerAccount.ozRelayer,
     rngWallet: relayerAccount.wallet,
     rngRelayerAddress: relayerAccount.relayerAddress,
     rngReadProvider,
@@ -35,6 +29,8 @@ export async function handler(event: RelayerParams) {
     useFlashbots: BUILD_USE_FLASHBOTS,
     minProfitThresholdUsd: Number(BUILD_MIN_PROFIT_THRESHOLD_USD),
   };
+  console.log('JSON.parse(BUILD_RELAYS)');
+  console.log(BUILD_RELAYS);
 
   await executeTransactions(drawAuctionConfigParams, BUILD_RELAYS);
 }

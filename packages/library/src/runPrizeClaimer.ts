@@ -18,9 +18,6 @@ import {
   TiersContext,
   Token,
   TokenWithRate,
-  SendTransactionArgs,
-  OzSendTransactionArgs,
-  WalletSendTransactionArgs,
 } from './types';
 import {
   logTable,
@@ -65,14 +62,7 @@ export async function runPrizeClaimer(
   contracts: ContractsBlob,
   prizeClaimerConfigParams: PrizeClaimerConfigParams,
 ): Promise<undefined> {
-  const {
-    chainId,
-    covalentApiKey,
-    useFlashbots,
-    ozRelayer,
-    wallet,
-    readProvider,
-  } = prizeClaimerConfigParams;
+  const { chainId, covalentApiKey, useFlashbots, wallet, readProvider } = prizeClaimerConfigParams;
 
   const contractsVersion = {
     major: 1,
@@ -222,14 +212,7 @@ export async function runPrizeClaimer(
 
       const gasLimit = 20000000;
       const { gasPrice } = await getGasPrice(readProvider);
-      const tx = await sendPopulatedTx(
-        ozRelayer,
-        wallet,
-        populatedTx,
-        gasLimit,
-        gasPrice,
-        useFlashbots,
-      );
+      const tx = await sendPopulatedTx(wallet, populatedTx, gasLimit, gasPrice, useFlashbots);
 
       // console.log(chalk.greenBright.bold(`Sending transaction ...`));
       // const tx = await ozRelayer.sendTransaction({

@@ -21,15 +21,8 @@ if (esMain(import.meta)) {
   const config = await askQuestions(new Configstore(pkg.name));
   const readProvider = new ethers.providers.JsonRpcProvider(config.JSON_RPC_URI, config.CHAIN_ID);
 
-  const mockEvent = {
-    apiKey: config.RELAYER_API_KEY,
-    apiSecret: config.RELAYER_API_SECRET,
-  };
-
   const relayerAccount: RelayerAccount = await instantiateRelayerAccount(
-    readProvider, // TODO: Fix this!
     readProvider,
-    mockEvent,
     config.CUSTOM_RELAYER_PRIVATE_KEY,
   );
 

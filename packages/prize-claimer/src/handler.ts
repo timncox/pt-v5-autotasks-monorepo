@@ -1,5 +1,4 @@
 import { ethers } from 'ethers';
-import { RelayerParams } from 'defender-relay-client';
 import {
   instantiateRelayerAccount,
   PrizeClaimerConfigParams,
@@ -8,14 +7,12 @@ import {
 
 import { executeTransactions } from './transactions';
 
-export async function handler(event: RelayerParams) {
+export async function handler(event) {
   const chainId = Number(BUILD_CHAIN_ID);
   const readProvider = new ethers.providers.JsonRpcProvider(BUILD_JSON_RPC_URI, chainId);
 
   const relayerAccount: RelayerAccount = await instantiateRelayerAccount(
     readProvider,
-    readProvider,
-    event,
     BUILD_CUSTOM_RELAYER_PRIVATE_KEY,
   );
 
